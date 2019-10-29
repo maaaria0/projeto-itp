@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "ponto.h"
 #include "imagem.h"
+#include "pinturas.h"
+#include "desenhos.h"
 
 int main()
 {
@@ -9,7 +12,8 @@ int main()
 	char aux[8];
 	FILE *arquivoImagem, *comandos;
 	Pixel **matrizImagem;
-	
+	Ponto *p;
+
 	comandos = fopen("comandos.txt", "r");
 	if(comandos == NULL){
 		printf("Erro na abertura do arquivo.\n");
@@ -35,6 +39,27 @@ int main()
       		limpaImagem(comandos, matrizImagem, largura, altura);
 		else if(!strcmp(aux, "save"))
       		salvaImagem(comandos, arquivoImagem, matrizImagem, largura, altura);
+      	
+      	else if(!strcmp(aux, "circle")){
+      		//definir ponto
+      		//passar ponto e raio pra funcao desenhar circulo
+      	}
+      	else if(!strcmp(aux, "polygon")){
+      		
+      	}
+      	else if(!strcmp(aux, "rect")){
+      		
+      	}
+      	else if(!strcmp(aux, "color")){
+      		//define cor
+      		//altera cor atual
+      	}
+      	else if(!strcmp(aux, "fill")){
+      		
+      	}
+      	else if(!strcmp(aux, "line")){
+      		
+      	}
       	/*
       	colocar outras opcoes
       	*/
