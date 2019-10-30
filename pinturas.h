@@ -2,16 +2,9 @@
 #define PINTURAS_H
 
 #include "ponto.h"
+#include "imagem.h"
 
-typedef struct cor {
-	int R;
-	int G;
-	int B;
-} Cor;
-
-
-Cor definirCor(int r, int g, int b);
-void mudarCorAtual();
-void preencherFigura(Ponto *p);
+Pixel defineCorAtual(FILE comandos);
+void preencheFigura(Ponto p, Pixel **matrizImagem, Pixel cor);
 
 #endif

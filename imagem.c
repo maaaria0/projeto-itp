@@ -1,5 +1,6 @@
 #include "imagem.h"
-
+#include <stdio.h>
+#include <stdlib.h>
 //void criaImagem()
 
 void salvaImagem(FILE *comandos, FILE *arquivoImagem, Pixel **matrizImagem, int largura, int altura){

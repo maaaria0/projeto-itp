@@ -2,14 +2,11 @@
 #define PONTO_H
 
 
-typedef struct ponto {
+typedef struct {
 	int x;
 	int y;
 } Ponto;
 
-Ponto definePonto (int x, int y);
-//int valorX (Ponto p);
-//int valorY (Ponto p);
-//int ehOrigem(Ponto p);
+Ponto definePonto(FILE comandos);
 
 #endif
