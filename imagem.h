@@ -6,7 +6,7 @@ typedef struct {
 } Pixel;
 
 //void criaImagem();
-void salvaImagem(FILE *comandos, FILE *arquivoImagem, Pixel **matrizImagem, int largura, int altura); //save
-void limpaImagem(FILE *comandos, Pixel **matrizImagem, int largura, int altura); //clear
+void salvaImagem(FILE *comandos, FILE *arquivoImagem, Pixel **matrizImagem, int largura, int altura);
+void limpaImagem(FILE *comandos, Pixel **matrizImagem, int largura, int altura);
 
 #endif

@@ -7,6 +7,6 @@ typedef struct {
 	int y;
 } Ponto;
 
-Ponto definePonto(FILE comandos);
+Ponto definePonto(FILE *comandos);
 
 #endif

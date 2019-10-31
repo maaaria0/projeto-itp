@@ -5,17 +5,9 @@
 
 void salvaImagem(FILE *comandos, FILE *arquivoImagem, Pixel **matrizImagem, int largura, int altura){
 	char nomeImagem[31];
-  	int i=-1, j;
-  	getc(comandos);
+  	int i, j;
+  	fscanf(comandos, " %s", nomeImagem);
   	fseek(comandos, 0, SEEK_CUR);
-  	getc(comandos);
-  	fseek(comandos, 0, SEEK_CUR);
-  	do{
-    	i++;
-    	fscanf(comandos, "%c", &nomeImagem[i]);
-    	fseek(comandos, 0, SEEK_CUR);
-  	} while(nomeImagem[i]!=34);
-  	nomeImagem[i] = 0;
   	arquivoImagem = fopen(nomeImagem, "w");
 	if(arquivoImagem == NULL){
 		printf("Erro na abertura do arquivo.\n");
@@ -37,9 +29,7 @@ void limpaImagem(FILE *comandos, Pixel **matrizImagem, int largura, int altura){
   	fseek(comandos, 0, SEEK_CUR);
   	for(i=0; i<largura; i++){
     	for(j=0; j<altura; j++){
-      		matrizImagem[i][j].r = cor.r;
-      		matrizImagem[i][j].g = cor.g;
-      		matrizImagem[i][j].b = cor.b;
+      		matrizImagem[i][j] = cor;
     	}
   	}
 }

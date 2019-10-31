@@ -4,7 +4,7 @@
 #include "imagem.h"
 #include "pinturas.h"
 
-Pixel defineCorAtual(FILE comandos){
+Pixel defineCorAtual(FILE *comandos){
 	Pixel cor;
 	fscanf(comandos, " %d %d %d", &cor.r, &cor.g, &cor.b);
     fseek(comandos, 0, SEEK_CUR);

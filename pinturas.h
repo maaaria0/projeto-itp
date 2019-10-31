@@ -4,7 +4,7 @@
 #include "ponto.h"
 #include "imagem.h"
 
-Pixel defineCorAtual(FILE comandos);
+Pixel defineCorAtual(FILE *comandos);
 void preencheFigura(Ponto p, Pixel **matrizImagem, Pixel cor);
 
 #endif

@@ -49,16 +49,16 @@ int main()
       	
       	else if(!strcmp(aux, "circle")){
                   p= definePonto(comandos);
-      		desenhaCirculo(p, comandos, matrizImagem, cor);
+      		desenhaCirculo(p, comandos, matrizImagem, corAtual);
       	}
 
       	else if(!strcmp(aux, "polygon")){
-      		desenhaPoligono(comandos, matrizImagem, cor);
+      		desenhaPoligono(comandos, matrizImagem, corAtual);
       	}
 
       	else if(!strcmp(aux, "rect")){
       		p= definePonto(comandos);
-                  desenhaRetangulo(p, comandos, matrizImagem, cor);
+                  desenhaRetangulo(p, comandos, matrizImagem, corAtual);
       	}
 
       	else if(!strcmp(aux, "color")){
@@ -67,11 +67,11 @@ int main()
 
       	else if(!strcmp(aux, "fill")){
                   p= definePonto(comandos);
-      		preencheFigura(p, matrizImagem, cor);
+      		preencheFigura(p, matrizImagem, corAtual);
       	}
 
       	else if(!strcmp(aux, "line")){
-      	     desenhaReta(comandos, matrizImagem, cor);
+      	     desenhaReta(comandos, matrizImagem, corAtual);
       	}
 
       	else{
