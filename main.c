@@ -22,21 +22,14 @@ int main()
 	}
 
 	while(fscanf(comandos, " %s", aux) != EOF){
-            fseek(comandos, 0, SEEK_CUR);
+        fseek(comandos, 0, SEEK_CUR);
 		
-            if(!strcmp(aux, "image")){
-      		fscanf(comandos, " %d %d", &largura, &altura);
-      		fseek(comandos, 0, SEEK_CUR);
-	    	      matrizImagem = (Pixel**)calloc(largura, sizeof(Pixel*));
-      	    	if(matrizImagem == NULL)
-      		    	return 1;
-	    	
-                  int i;
-      	    	for(i=0; i<largura; i++){
-      		    	matrizImagem[i] = (Pixel*)calloc(altura, sizeof(Pixel));
-      		    	if(matrizImagem[i] == NULL)
-      			    	return 1;
-      	    	}
+        if(!strcmp(aux, "image")){
+      		matrizImagem = criaImagem(comandos, &largura, &altura);
+      		if(matrizImagem == NULL){
+      			printf("Erro na criação da imagem.\n");
+      			return 1;
+      		}
    		}
 
 		else if(!strcmp(aux, "clear")){

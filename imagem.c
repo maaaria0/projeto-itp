@@ -1,7 +1,20 @@
 #include "imagem.h"
-#include <stdio.h>
-#include <stdlib.h>
-//void criaImagem()
+
+Pixel** criaImagem(FILE *comandos, int *largura, int *altura){
+  	Pixel **matrizImagem;
+  	fscanf(comandos, " %d %d", largura, altura);
+  	fseek(comandos, 0, SEEK_CUR);
+	matrizImagem = (Pixel**)calloc((*largura), sizeof(Pixel*));
+	if(matrizImagem == NULL)
+    	return NULL;
+	int i;
+	for(i=0; i<(*largura); i++){
+	  	matrizImagem[i] = (Pixel*)calloc((*altura), sizeof(Pixel));
+		if(matrizImagem[i] == NULL)
+      		return NULL;
+	}
+  return matrizImagem;
+}
 
 void salvaImagem(FILE *comandos, FILE *arquivoImagem, Pixel **matrizImagem, int largura, int altura){
 	char nomeImagem[31];
