@@ -1,6 +1,4 @@
 #include "ponto.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 Ponto definePonto(FILE *comandos){
 	Ponto p;

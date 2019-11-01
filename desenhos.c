@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "ponto.h"
-#include "pinturas.h"
-#include "imagem.h"
 #include "desenhos.h"
 
 void desenhaCirculo(Ponto centro, FILE *comandos, Pixel **matrizImagem, Pixel cor){
