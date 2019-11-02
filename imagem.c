@@ -1,22 +1,22 @@
 #include "imagem.h"
 
-Pixel** criaImagem(FILE *comandos, int *largura, int *altura){
-  	Pixel **matrizImagem;
-  	fscanf(comandos, " %d %d", largura, altura);
-  	fseek(comandos, 0, SEEK_CUR);
-	matrizImagem = (Pixel**)calloc((*largura), sizeof(Pixel*));
+Pixel** criaImagem(FILE *comandos, Imagem *img){
+  Pixel **matrizImagem;
+  fscanf(comandos, " %d %d", &img->largura, &img->altura);
+  fseek(comandos, 0, SEEK_CUR);
+	matrizImagem = (Pixel**)calloc(img->largura, sizeof(Pixel*));
 	if(matrizImagem == NULL)
-    	return NULL;
+    return NULL;
 	int i;
-	for(i=0; i<(*largura); i++){
-	  	matrizImagem[i] = (Pixel*)calloc((*altura), sizeof(Pixel));
+	for(i=0; i<img->largura; i++){
+	  matrizImagem[i] = (Pixel*)calloc(img->altura, sizeof(Pixel));
 		if(matrizImagem[i] == NULL)
-      		return NULL;
+      return NULL;
 	}
   return matrizImagem;
 }
 
-void salvaImagem(FILE *comandos, FILE *arquivoImagem, Pixel **matrizImagem, int largura, int altura){
+void salvaImagem(FILE *comandos, FILE *arquivoImagem, Imagem img){
 	char nomeImagem[31];
   	int i, j;
   	fscanf(comandos, " %s", nomeImagem);
@@ -26,23 +26,21 @@ void salvaImagem(FILE *comandos, FILE *arquivoImagem, Pixel **matrizImagem, int 
 		printf("Erro na abertura do arquivo.\n");
 		return; 
 	}
-  	fprintf(arquivoImagem, "P3\n%d %d\n255\n", largura, altura);
-  	for(i=0; i<largura; i++){
-    	for(j=0; j<altura; j++){
-      		fprintf(arquivoImagem, "%d %d %d\n", matrizImagem[i][j].r, matrizImagem[i][j].g, matrizImagem[i][j].b);
-    	}
-  	}
-  	fclose(arquivoImagem);
+  	fprintf(arquivoImagem, "P3\n%d %d\n255\n", img.largura, img.altura);
+  	for(i=0; i<img.largura; i++){
+    for(j=0; j<img.altura; j++){
+      fprintf(arquivoImagem, "%d %d %d\n", img.matrizImagem[i][j].r, img.matrizImagem[i][j].g, img.matrizImagem[i][j].b);
+    }
+  }
+  fclose(arquivoImagem);
 }
 
-void limpaImagem(FILE *comandos, Pixel **matrizImagem, int largura, int altura){
-  	int i, j;
-  	Pixel cor;
-  	fscanf(comandos, " %d %d %d", &cor.r, &cor.g, &cor.b);
-  	fseek(comandos, 0, SEEK_CUR);
-  	for(i=0; i<largura; i++){
-    	for(j=0; j<altura; j++){
-      		matrizImagem[i][j] = cor;
-    	}
-  	}
+void limpaImagem(Pixel cor, Imagem img){
+  int i, j;
+
+  for(i=0; i<img.largura; i++){
+    for(j=0; j<img.altura; j++){
+      img.matrizImagem[i][j] = cor;
+    }
+  }
 }

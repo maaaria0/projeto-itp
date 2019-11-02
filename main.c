@@ -9,9 +9,10 @@
 int main()
 {
 	int largura, altura, i, j;
-	char aux[8];
+      char aux[8];
 	FILE *arquivoImagem, *comandos;
-	Pixel **matrizImagem, corAtual;
+	Pixel corAtual;
+      Imagem img;
       Ponto p;
 
       //leitura do arquivo
@@ -22,36 +23,37 @@ int main()
 	}
 
 	while(fscanf(comandos, " %s", aux) != EOF){
-        fseek(comandos, 0, SEEK_CUR);
+            fseek(comandos, 0, SEEK_CUR);
 		
-        if(!strcmp(aux, "image")){
-      		matrizImagem = criaImagem(comandos, &largura, &altura);
-      		if(matrizImagem == NULL){
+            if(!strcmp(aux, "image")){
+      		img.matrizImagem = criaImagem(comandos, &img);
+      		if(img.matrizImagem == NULL){
       			printf("Erro na criação da imagem.\n");
       			return 1;
       		}
    		}
 
 		else if(!strcmp(aux, "clear")){
-                  limpaImagem(comandos, matrizImagem, largura, altura);
+                  corAtual= defineCorAtual(comandos);
+                  limpaImagem(corAtual, img);
             }
 
 		else if(!strcmp(aux, "save")){
-                  salvaImagem(comandos, arquivoImagem, matrizImagem, largura, altura);
+                  salvaImagem(comandos, arquivoImagem, img);
             }
       	
       	else if(!strcmp(aux, "circle")){
                   p= definePonto(comandos);
-      		desenhaCirculo(p, comandos, matrizImagem, corAtual);
+      		desenhaCirculo(p, comandos, img, corAtual);
       	}
 
       	else if(!strcmp(aux, "polygon")){
-      		desenhaPoligono(comandos, matrizImagem, corAtual);
+      		desenhaPoligono(comandos, img, corAtual);
       	}
 
       	else if(!strcmp(aux, "rect")){
       		p= definePonto(comandos);
-                  desenhaRetangulo(p, comandos, matrizImagem, corAtual);
+                  desenhaRetangulo(p, comandos, img, corAtual);
       	}
 
       	else if(!strcmp(aux, "color")){
@@ -60,11 +62,11 @@ int main()
 
       	else if(!strcmp(aux, "fill")){
                   p= definePonto(comandos);
-      		preencheFigura(p, matrizImagem, corAtual);
+      		preencheFigura(p, img, corAtual);
       	}
 
       	else if(!strcmp(aux, "line")){
-      	     desenhaReta(comandos, matrizImagem, corAtual);
+      	     desenhaReta(comandos, img, corAtual);
       	}
 
       	else{
@@ -73,9 +75,8 @@ int main()
 	}
 
 	for(i=0; i<largura; i++)
-		free(matrizImagem[i]);
-
-	free(matrizImagem);
+		free(img.matrizImagem[i]);
+	free(img.matrizImagem);
 
 	fclose(comandos);
 

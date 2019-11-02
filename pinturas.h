@@ -5,6 +5,6 @@
 #include "imagem.h"
 
 Pixel defineCorAtual(FILE *comandos);
-void preencheFigura(Ponto p, Pixel **matrizImagem, Pixel cor);
+void preencheFigura(Ponto p, Imagem img, Pixel cor);
 
 #endif

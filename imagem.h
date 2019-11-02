@@ -8,8 +8,13 @@ typedef struct {
 	int r, g, b;
 } Pixel;
 
-Pixel** criaImagem(FILE *comandos, int *largura, int *altura);
-void salvaImagem(FILE *comandos, FILE *arquivoImagem, Pixel **matrizImagem, int largura, int altura);
-void limpaImagem(FILE *comandos, Pixel **matrizImagem, int largura, int altura);
+typedef struct {
+	Pixel **matrizImagem;
+	int largura, altura;
+} Imagem;
+
+Pixel** criaImagem(FILE *comandos, Imagem *img);
+void salvaImagem(FILE *comandos, FILE *arquivoImagem, Imagem img);
+void limpaImagem(Pixel cor, Imagem img);
 
 #endif
