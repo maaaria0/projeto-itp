@@ -27,8 +27,8 @@ void salvaImagem(FILE *comandos, FILE *arquivoImagem, Imagem img){
 		return; 
 	}
   	fprintf(arquivoImagem, "P3\n%d %d\n255\n", img.largura, img.altura);
-  	for(i=0; i<img.largura; i++){
-    for(j=0; j<img.altura; j++){
+  	for(j=0; j<img.altura; j++){
+    for(i=0; i<img.largura; i++){
       fprintf(arquivoImagem, "%d %d %d\n", img.matrizImagem[i][j].r, img.matrizImagem[i][j].g, img.matrizImagem[i][j].b);
     }
   }
