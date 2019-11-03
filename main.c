@@ -9,13 +9,13 @@
 int main()
 {
 	int largura, altura, i, j;
-      char aux[8];
+    char aux[8];
 	FILE *arquivoImagem, *comandos;
 	Pixel corAtual;
-      Imagem img;
-      Ponto p;
+    Imagem img;
+    Ponto p;
 
-      //leitura do arquivo
+    //leitura do arquivo
 	comandos = fopen("comandos.txt", "r");
 	if(comandos == NULL){
 		printf("Erro na abertura do arquivo.\n");
@@ -23,9 +23,8 @@ int main()
 	}
 
 	while(fscanf(comandos, " %s", aux) != EOF){
-            fseek(comandos, 0, SEEK_CUR);
-		
-            if(!strcmp(aux, "image")){
+        fseek(comandos, 0, SEEK_CUR);
+        if(!strcmp(aux, "image")){
       		img.matrizImagem = criaImagem(comandos, &img);
       		if(img.matrizImagem == NULL){
       			printf("Erro na criação da imagem.\n");
@@ -34,16 +33,16 @@ int main()
    		}
 
 		else if(!strcmp(aux, "clear")){
-                  corAtual= defineCorAtual(comandos);
-                  limpaImagem(corAtual, img);
-            }
+            corAtual= defineCorAtual(comandos);
+            limpaImagem(corAtual, img);
+        }
 
 		else if(!strcmp(aux, "save")){
-                  salvaImagem(comandos, arquivoImagem, img);
-            }
+            salvaImagem(comandos, arquivoImagem, img);
+        }
       	
       	else if(!strcmp(aux, "circle")){
-                  p= definePonto(comandos);
+            p= definePonto(comandos);
       		desenhaCirculo(p, comandos, img, corAtual);
       	}
 
@@ -53,7 +52,7 @@ int main()
 
       	else if(!strcmp(aux, "rect")){
       		p= definePonto(comandos);
-                  desenhaRetangulo(p, comandos, img, corAtual);
+            desenhaRetangulo(p, comandos, img, corAtual);
       	}
 
       	else if(!strcmp(aux, "color")){
@@ -61,17 +60,17 @@ int main()
       	}
 
       	else if(!strcmp(aux, "fill")){
-                  p= definePonto(comandos);
+            p= definePonto(comandos);
       		preencheFigura(p, img, corAtual);
       	}
 
       	else if(!strcmp(aux, "line")){
-      	     desenhaReta(comandos, img, corAtual);
+      	    desenhaReta(comandos, &img, corAtual);
       	}
 
       	else{
-                  //??
-            }
+            //??
+        }
 	}
 
 	for(i=0; i<largura; i++)
