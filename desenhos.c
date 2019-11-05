@@ -3,11 +3,32 @@
 void desenhaCirculo(Ponto centro, FILE *comandos, Imagem img, Pixel cor){
 
 }
-void desenhaRetangulo(Ponto p, FILE *comandos, Imagem img, Pixel cor){
-
+void desenhaRetangulo(Ponto p, FILE *comandos, Imagem *img, Pixel cor){
+    int largura, altura;
+    fscanf(comandos, " %d %d", &largura, &altura);
+    fseek(comandos, 0, SEEK_CUR);
+    desenhaReta(p.x, p.y, p.x + largura, p.y, img, cor);
+    desenhaReta((p.x + largura), p.y, (p.x + largura), (p.y + altura), img, cor);
+    desenhaReta((p.x + largura), p.y + altura, p.x, (p.y + altura), img, cor);
+    desenhaReta(p.x, (p.y + altura), p.x, p.y, img, cor);
 }
-void desenhaPoligono(FILE *comandos, Imagem img, Pixel cor){
-
+void desenhaPoligono(FILE *comandos, Imagem *img, Pixel cor){
+	int N, i, p;
+	//leitura
+	fscanf(comandos, " %d", &N);
+	fseek(comandos, 0, SEEK_CUR);
+	p= N*2;
+	int pontos[p];
+	for(i=0; i<p; i++){
+		fscanf(comandos, " %d", &pontos[i]);
+	}
+	fseek(comandos, 0, SEEK_CUR);
+	
+	for(i=0; i<N; i++){
+		desenhaReta(pontos[i], pontos[i+1], pontos[i+2], pontos[i+3], img, cor);
+	}
+	//ligar ultimo ponto
+	desenhaReta(pontos[0], pontos[1], pontos[p-2], pontos[p-1], img, cor);
 }
 
 void inverte(int *p_1, int *p_2){
@@ -18,22 +39,40 @@ void inverte(int *p_1, int *p_2){
 	(*p_2) = aux;
 }
 
-void desenhaReta(FILE *comandos, Imagem *img, Pixel cor){
-	int i, xi, yi, xf, yf;
+void desenhaReta(int xi, int yi, int xf, int yf, Imagem *img, Pixel cor){
+	/*int i, xi, yi, xf, yf;
 	fscanf(comandos, " %d %d %d %d", &xi, &yi, &xf, &yf);
-	fseek(comandos, 0, SEEK_CUR);
+	fseek(comandos, 0, SEEK_CUR);*/
+	int i;
 	if(yi == yf){
-		while(xi<=xf){
-			img->matrizImagem[xi][yi] = cor;
-			xi++;
-		}
+	    if(xi>xf){
+	        while(xi>=xf){
+	            img->matrizImagem[xi][yi] = cor;
+                xi--;
+	        }
+	    }
+	    else{
+	        while(xi<=xf){
+                img->matrizImagem[xi][yi] = cor;
+                xi++;
+            }
+	    }
+
 	}
 	else if(xi == xf){
-		while(yi<=yf){
-			img->matrizImagem[xi][yi] = cor;
-			yi++;
-		}
-	}
+	    if(yi>yf){
+            while(yi>=yf){
+                img->matrizImagem[xi][yi] = cor;
+                yi--;
+            }
+        }
+        else{
+            while(yi<=yf){
+                img->matrizImagem[xi][yi] = cor;
+                yi++;
+            }
+        }
+    }
 	else{
 		float inclinacao = 0;
 		int aux = 1, j=yi, i=yf;

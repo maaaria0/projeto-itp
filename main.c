@@ -35,6 +35,7 @@ int main()
 		else if(!strcmp(aux, "clear")){
             corAtual= defineCorAtual(comandos);
             limpaImagem(corAtual, img);
+
         }
 
 		else if(!strcmp(aux, "save")){
@@ -47,12 +48,12 @@ int main()
       	}
 
       	else if(!strcmp(aux, "polygon")){
-      		desenhaPoligono(comandos, img, corAtual);
+      		desenhaPoligono(comandos, &img, corAtual);
       	}
 
       	else if(!strcmp(aux, "rect")){
       		p= definePonto(comandos);
-            desenhaRetangulo(p, comandos, img, corAtual);
+            desenhaRetangulo(p, comandos, &img, corAtual);
       	}
 
       	else if(!strcmp(aux, "color")){
@@ -65,7 +66,10 @@ int main()
       	}
 
       	else if(!strcmp(aux, "line")){
-      	    desenhaReta(comandos, &img, corAtual);
+          int xi, yi, xf, yf;
+          fscanf(comandos, " %d %d %d %d", &xi, &yi, &xf, &yf);
+          fseek(comandos, 0, SEEK_CUR);
+      	  desenhaReta(xi, yi, xf, yf, &img, corAtual);
       	}
 
       	else{
@@ -73,8 +77,9 @@ int main()
         }
 	}
 
-	for(i=0; i<largura; i++)
+	for(i=0; i<img.largura; i++){
 		free(img.matrizImagem[i]);
+  }
 	free(img.matrizImagem);
 
 	fclose(comandos);

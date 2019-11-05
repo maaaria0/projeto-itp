@@ -18,9 +18,9 @@ typedef struct {
 } Retangulo;
 
 void desenhaCirculo(Ponto centro, FILE *comandos, Imagem img, Pixel cor);
-void desenhaRetangulo(Ponto p, FILE *comandos, Imagem img, Pixel cor);
-void desenhaPoligono(FILE *comandos, Imagem img, Pixel cor);
-void desenhaReta(FILE *comandos, Imagem *img, Pixel cor);
+void desenhaRetangulo(Ponto p, FILE *comandos, Imagem *img, Pixel cor);
+void desenhaPoligono(FILE *comandos, Imagem *img, Pixel cor);
+void desenhaReta(int xi, int yi, int xf, int yf, Imagem *img, Pixel cor);
 void inverte(int *p_1, int *p_2);
 
 #endif
