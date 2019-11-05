@@ -1,7 +1,23 @@
 image 1080 1920
-clear 255 255 255
-color 0 0 0
-line 100 0 100 999
-line 0 100 999 100
+clear 0 0 0
+color 255 255 255
+line 0 100 1079 100
+line 100 0 100 1919
+color 255 0 0
+line 100 100 500 999
+color 255 255 0
 line 100 100 999 500
-save teste.ppm
+color 0 255 0
+line 100 100 250 999
+color 0 255 255
+line 100 100 999 250
+color 0 0 255
+line 100 100 1079 700
+color 255 0 255
+line 100 100 700 1919
+color 255 255 255
+line 100 100 1079 1919
+line 0 1919 1079 0
+line 0 1919 540 0
+line 0 1919 1079 860
+save xablau.ppm
