@@ -9,5 +9,6 @@ typedef struct {
 } Ponto;
 
 Ponto definePonto(FILE *comandos);
+void inverteCoordenadas(int *c_1, int *c_2);
 
 #endif
