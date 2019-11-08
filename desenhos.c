@@ -8,7 +8,7 @@ void desenhaCirculo(Ponto centro, FILE *comandos, Imagem img, Pixel cor){
 	int x, y, d=1-raio;
 	y=raio;
 	x=0;
-	//img.matrizImagem[centro.x][centro.y] = cor;
+
 	while(y > x){
 		img.matrizImagem[x+centro.x][y+centro.y] = cor;
 		img.matrizImagem[y+centro.x][x+centro.y] = cor;
@@ -46,10 +46,6 @@ void desenhaRetangulo(Ponto p, FILE *comandos, Imagem *img, Pixel cor){
     f.y-= altura;
     desenhaReta(i, f, img, cor);
 
-    /*desenhaReta(p.x, p.y, p.x + largura, p.y, img, cor);
-    desenhaReta((p.x + largura), p.y, (p.x + largura), (p.y + altura), img, cor);
-    desenhaReta((p.x + largura), p.y + altura, p.x, (p.y + altura), img, cor);
-    desenhaReta(p.x, (p.y + altura), p.x, p.y, img, cor);*/
 }
 
 void desenhaPoligono(FILE *comandos, Imagem *img, Pixel cor){
@@ -67,7 +63,7 @@ void desenhaPoligono(FILE *comandos, Imagem *img, Pixel cor){
 	for(i=0; i<N-1; i++){
 		desenhaReta(pontos[i], pontos[i+1], img, cor);
 	}
-	//ligar ultimo ponto
+	//liga ultimo ponto
 	desenhaReta(pontos[0], pontos[N-1], img, cor);
 }
 
