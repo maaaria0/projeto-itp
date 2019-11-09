@@ -20,8 +20,12 @@ void preencheFigura(Ponto p, Imagem *img, Pixel cor){
     pontos[3].x = p.x;
     pontos[3].y = p.y - 1;
     
-    if (img.matrizImagem[p.x][p.y] =! cor) { 
-  
+    if(p.x < 0 || p.y < 0){
+    	return;
+    }
+
+    if (img.matrizImagem[p.x][p.y] != cor) { 
+  		img.matrizImagem[p.x][p.y] = cor;
         // recursive call for bottom pixel fill 
         preencheFigura(pontos[0], img, cor); 
   
