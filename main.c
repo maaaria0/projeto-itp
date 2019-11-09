@@ -60,7 +60,7 @@ int main(){
 
   	else if(!strcmp(aux, "fill")){
       p= definePonto(comandos);
-  		preencheFigura(p, img, corAtual);
+  		preencheFigura(p, &img, corAtual);
   	}
 
   	else if(!strcmp(aux, "line")){
