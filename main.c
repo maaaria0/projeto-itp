@@ -10,7 +10,7 @@ int main(){
 	int i, j;
   char aux[8];
 	FILE *arquivoImagem, *comandos;
-	Pixel corAtual;
+	Pixel corAtual, corAnterior;
   Imagem img;
   Ponto p, p2;
 
@@ -60,7 +60,8 @@ int main(){
 
   	else if(!strcmp(aux, "fill")){
       p= definePonto(comandos);
-  		preencheFigura(p, &img, corAtual);
+      corAnterior = img.matrizImagem[p.x][p.y];
+  		preencheFigura(p.x, p.y, &img, corAtual, corAnterior);
   	}
 
   	else if(!strcmp(aux, "line")){

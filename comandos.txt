@@ -4,4 +4,8 @@ color 0 0 0
 line 0 0 1000 500
 line 300 700 666 1000
 polygon 3 300 300 300 900 666 666
+circle 1000 500 200
+color 255 255 255
+fill 1100 600
+fill 500 700
 save reposicao.ppm
