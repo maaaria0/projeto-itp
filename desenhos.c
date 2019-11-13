@@ -3,7 +3,6 @@
 void desenhaCirculo(Ponto centro, FILE *comandos, Imagem img, Pixel cor){
 	int raio;
 	fscanf(comandos, " %d", &raio);
-	fseek(comandos, 0, SEEK_CUR);
 
 	int x, y, d=1-raio;
 	y=raio;
@@ -31,7 +30,6 @@ void desenhaCirculo(Ponto centro, FILE *comandos, Imagem img, Pixel cor){
 void desenhaRetangulo(Ponto p, FILE *comandos, Imagem *img, Pixel cor){
     int largura, altura;
     fscanf(comandos, " %d %d", &largura, &altura);
-    fseek(comandos, 0, SEEK_CUR);
 
     Ponto i = p, f;
     f.x = p.x + largura;
@@ -45,20 +43,17 @@ void desenhaRetangulo(Ponto p, FILE *comandos, Imagem *img, Pixel cor){
     i.x-= largura;
     f.y-= altura;
     desenhaReta(i, f, img, cor);
-
 }
 
 void desenhaPoligono(FILE *comandos, Imagem *img, Pixel cor){
 	int N, i;
 	//leitura
 	fscanf(comandos, " %d", &N);
-	fseek(comandos, 0, SEEK_CUR);
 	Ponto pontos[N];
 
 	for(i=0; i<N; i++){
 		fscanf(comandos, " %d %d", &pontos[i].x, &pontos[i].y);
 	}
-	fseek(comandos, 0, SEEK_CUR);
 	
 	for(i=0; i<N-1; i++){
 		desenhaReta(pontos[i], pontos[i+1], img, cor);
@@ -68,10 +63,16 @@ void desenhaPoligono(FILE *comandos, Imagem *img, Pixel cor){
 }
 
 void desenhaReta(Ponto inicial, Ponto final, Imagem *img, Pixel cor){
+	float inclinacao = 0;
+	int aux = 1, menorY=inicial.y, maiorY=final.y;
 
 	if(inicial.x > final.x){
 		inverteCoordenadas(&inicial.x, &final.x);
 		inverteCoordenadas(&inicial.y, &final.y);
+	}
+	if(inicial.y > final.y){
+		aux = -1;
+		inverteCoordenadas(&maiorY, &menorY);
 	}
 
 	if(inicial.y == final.y){
@@ -80,24 +81,16 @@ void desenhaReta(Ponto inicial, Ponto final, Imagem *img, Pixel cor){
 	        inicial.x++;
 	    }
 	}
+
 	else if(inicial.x == final.x){
-	    if(inicial.y > final.y){
-        	inverteCoordenadas(&inicial.y, &final.y); //como xi=xf não fará diferença
-        }
-	    while(inicial.y <= final.y){
+	    while(menorY <= maiorY){
 	        img->matrizImagem[inicial.x][inicial.y] = cor;
-	        inicial.y++;
+	        inicial.y+=aux;
+	        menorY++;
 	    }
     }
+
 	else{
-		float inclinacao = 0;
-		int aux = 1, menorY=inicial.y, maiorY=final.y;
-
-		if(inicial.y > final.y){
-			aux = -1;
-			inverteCoordenadas(&maiorY, &menorY);
-		}
-
 		if(final.x-inicial.x >= aux*(final.y-inicial.y)){
 			while(inicial.x <= final.x){
 				img->matrizImagem[inicial.x][inicial.y] = cor;
