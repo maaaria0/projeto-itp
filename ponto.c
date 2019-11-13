@@ -1,6 +1,7 @@
 #include "ponto.h"
 
 Ponto definePonto(FILE *comandos){
+	//leitura das coordenadas que definem um ponto 
 	Ponto p;
 	fscanf(comandos, " %d %d", &p.x, &p.y);
 	

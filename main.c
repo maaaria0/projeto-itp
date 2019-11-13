@@ -22,6 +22,7 @@ int main(){
 	}
 
 	while(fscanf(comandos, " %s", aux) != EOF){
+		
 	    if(!strcmp(aux, "image")){
 	  		img.matrizImagem = criaImagem(comandos, &img);
 	  		if(img.matrizImagem == NULL){
@@ -69,11 +70,9 @@ int main(){
 	  	  	desenhaReta(p, p2, &img, corAtual);
 	  	}
 
-	  	else{
-	      	//
-	    }
 	}
 
+	//liberacao do espaco alocado na memoria  
 	for(i=0; i<img.largura; i++){
 		free(img.matrizImagem[i]);
   	}

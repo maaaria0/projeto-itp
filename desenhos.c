@@ -1,5 +1,7 @@
 #include "desenhos.h"
 
+
+//funcao adaptada baseada no algortimo de 
 void desenhaCirculo(Ponto centro, FILE *comandos, Imagem img, Pixel cor){
 	int raio;
 	fscanf(comandos, " %d", &raio);
@@ -17,6 +19,8 @@ void desenhaCirculo(Ponto centro, FILE *comandos, Imagem img, Pixel cor){
 		img.matrizImagem[x+centro.x][-y+centro.y] = cor;
 		img.matrizImagem[-y+centro.x][x+centro.y] = cor;
 		img.matrizImagem[y+centro.x][-x+centro.y] = cor;
+		
+		//derivada da funcao do circulo 
 		if(d<0)
 			d+= 2*x + 3;
 		else{
@@ -32,6 +36,7 @@ void desenhaRetangulo(Ponto p, FILE *comandos, Imagem *img, Pixel cor){
     fscanf(comandos, " %d %d", &largura, &altura);
 
     Ponto i = p, f;
+    //descricao 
     f.x = p.x + largura;
     desenhaReta(i, f, img, cor);
     i.x+= largura;
@@ -47,18 +52,20 @@ void desenhaRetangulo(Ponto p, FILE *comandos, Imagem *img, Pixel cor){
 
 void desenhaPoligono(FILE *comandos, Imagem *img, Pixel cor){
 	int N, i;
-	//leitura
+	//leitura da quantidade de pontos a ser lidos 
 	fscanf(comandos, " %d", &N);
 	Ponto pontos[N];
-
+	
 	for(i=0; i<N; i++){
 		fscanf(comandos, " %d %d", &pontos[i].x, &pontos[i].y);
 	}
-	
+
+	//desenho do poligono
 	for(i=0; i<N-1; i++){
 		desenhaReta(pontos[i], pontos[i+1], img, cor);
 	}
-	//liga ultimo ponto
+	
+	//liga ultimo ponto ao primeiro para fechar a figura
 	desenhaReta(pontos[0], pontos[N-1], img, cor);
 }
 
@@ -94,15 +101,18 @@ void desenhaReta(Ponto inicial, Ponto final, Imagem *img, Pixel cor){
 		if(final.x-inicial.x >= aux*(final.y-inicial.y)){
 			while(inicial.x <= final.x){
 				img->matrizImagem[inicial.x][inicial.y] = cor;
-				inclinacao += (final.y - inicial.y)*1.0/(final.x - inicial.x); //se yf<yi a inclinação será negativa
+				//se yf<yi a inclinação será negativa
+				inclinacao += (final.y - inicial.y)*1.0/(final.x - inicial.x); 
 				if(inclinacao >= 1 || inclinacao <= -1){
-					inicial.y+= aux; //se yi>yf, então o mesmo deve decrementar até chegar em yf
+					//se yi>yf, então o mesmo deve decrementar até chegar em yf
+					inicial.y+= aux; 
 					inclinacao-= aux;
 				}
 				inicial.x++;
 			}
 		}
-		else{//se a diferença de y for maior que a diferença de x
+		//se a diferença de y for maior que a diferença de x
+		else{
 			while(menorY <= maiorY){
 				img->matrizImagem[inicial.x][inicial.y] = cor;
 				inclinacao += (final.x - inicial.x)*1.0/(final.y - inicial.y);

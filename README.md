@@ -1,1 +1,3 @@
 # projeto-itp
+
+# para rodar esse programa voce precisa... 
