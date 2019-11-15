@@ -7,8 +7,12 @@ Pixel defineCorAtual(FILE *comandos){
 	return cor;
 }
 
-//funcao adaptada baseada no algoritmo flood fill 
 void preencheFigura(int x, int y, Imagem *img, Pixel corAtual, Pixel corAnterior){
+    /*
+    esta função é responsável por preencher figuras
+    foi baseada no algoritmo flood fill e adaptada de geeksforgeeks.org  
+    */
+
     //verifica se o ponto dado esta dentro da matriz imagem   
     if(x < 0 || y < 0 || x >= img->largura || y >= img->altura){
         return;
@@ -20,7 +24,11 @@ void preencheFigura(int x, int y, Imagem *img, Pixel corAtual, Pixel corAnterior
     }
 
     img->matrizImagem[x][y] = corAtual;
-
+    
+    /*
+    chamada recursiva que preenche a figura da direita para esquerda
+    e de cima para baixo
+    */
     preencheFigura(x+1, y, img, corAtual, corAnterior);
     preencheFigura(x-1, y, img, corAtual, corAnterior);
     preencheFigura(x, y+1, img, corAtual, corAnterior);

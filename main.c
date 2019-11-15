@@ -14,7 +14,7 @@ int main(){
   	Imagem img;
   	Ponto p, p2;
 
-  	//Abertura do arquivo com os comandos a serem executados
+  	//abertura do arquivo com os comandos a serem lidos e executados
 	comandos = fopen("comandos.txt", "r");
 	if(comandos == NULL){
 		printf("Erro na abertura do arquivo.\n");
@@ -71,12 +71,13 @@ int main(){
 
 	}
 
-	//Liberação do espaço alocado na memória
+	//liberação do espaço alocado na memória
 	for(i=0; i<img.largura; i++){
 		free(img.matrizImagem[i]);
   	}
 	free(img.matrizImagem);
-	//Fechando o arquivo com os comandos
+	
+	//fechando o arquivo com os comandos
 	fclose(comandos);
 
 	return 0;
