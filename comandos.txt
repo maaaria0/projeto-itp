@@ -9,5 +9,9 @@ color 0 255 0
 polygon 3 600 950 650 900 700 900 
 fill 675 905
 line 600 900 700 850
-line 700 900 750 950 
+line 700 900 750 950
+color 0 0 0
+circle 0 0 200
+circle 960 900 200
+circle 1800 500 200
 save vaidarcerto.ppm

@@ -14,15 +14,14 @@ int main(){
   	Imagem img;
   	Ponto p, p2;
 
-  	//leitura do arquivo
+  	//Abertura do arquivo com os comandos a serem executados
 	comandos = fopen("comandos.txt", "r");
 	if(comandos == NULL){
 		printf("Erro na abertura do arquivo.\n");
 		return 1; 
 	}
 
-	while(fscanf(comandos, " %s", aux) != EOF){
-		
+	while(fscanf(comandos, " %s", aux) != EOF){	
 	    if(!strcmp(aux, "image")){
 	  		img.matrizImagem = criaImagem(comandos, &img);
 	  		if(img.matrizImagem == NULL){
@@ -72,12 +71,12 @@ int main(){
 
 	}
 
-	//liberacao do espaco alocado na memoria  
+	//Liberação do espaço alocado na memória
 	for(i=0; i<img.largura; i++){
 		free(img.matrizImagem[i]);
   	}
 	free(img.matrizImagem);
-
+	//Fechando o arquivo com os comandos
 	fclose(comandos);
 
 	return 0;

@@ -10,7 +10,7 @@ Pixel defineCorAtual(FILE *comandos){
 //funcao adaptada baseada no algoritmo flood fill 
 void preencheFigura(int x, int y, Imagem *img, Pixel corAtual, Pixel corAnterior){
     //verifica se o ponto dado esta dentro da matriz imagem   
-    if(x < 1 || y < 1 || x >= img->largura-1 || y >= img->altura-1){
+    if(x < 0 || y < 0 || x >= img->largura || y >= img->altura){
         return;
     }
 
