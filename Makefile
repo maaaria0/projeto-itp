@@ -1,7 +1,7 @@
 all: main
 
 main: ponto.o imagem.o pinturas.o desenhos.o main.c
-	gcc main.c -o main ponto.o imagem.o pinturas.o desenhos.o
+	gcc main.c -o main ponto.o imagem.o pinturas.o desenhos.o -lm
 
 desenhos.o: desenhos.c
 	gcc -c desenhos.c

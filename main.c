@@ -7,8 +7,8 @@
 #include "desenhos.h"
 
 int main(){
-	int i;
-  	char aux[8];
+	int i, TAM=1;
+  	char aux[15];
 	FILE *arquivoImagem, *comandos;
 	Pixel corAtual, corAnterior;
   	Imagem img;
@@ -45,12 +45,12 @@ int main(){
 	  	}
 
 	  	else if(!strcmp(aux, "polygon")){
-	  		desenhaPoligono(comandos, &img, corAtual);
+	  		desenhaPoligono(comandos, &img, corAtual, TAM);
 	  	}
 
 	  	else if(!strcmp(aux, "rect")){
 	  		p= definePonto(comandos);
-	      	desenhaRetangulo(p, comandos, &img, corAtual);
+	      	desenhaRetangulo(p, comandos, &img, corAtual, TAM);
 	  	}
 
 	  	else if(!strcmp(aux, "color")){
@@ -66,7 +66,19 @@ int main(){
 	  	else if(!strcmp(aux, "line")){
 	      	p = definePonto(comandos);
 	      	p2 = definePonto(comandos);
-	  	  	desenhaReta(p, p2, &img, corAtual);
+	  	  	desenhaReta(p, p2, &img, corAtual, TAM);
+	  	}
+
+	  	else if(!strcmp(aux, "polygon3D")){
+	  		desenhaPoligono3D(comandos, &img, corAtual, TAM);
+	  	}
+
+	  	else if(!strcmp(aux, "spencil")){
+	  		fscanf(comandos, " %d", &TAM);
+	  	}
+
+	  	else if(!strcmp(aux, "curve")){
+	  		desenhaCurva(comandos, &img, corAtual);
 	  	}
 
 	}

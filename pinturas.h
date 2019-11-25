@@ -6,5 +6,7 @@
 
 Pixel defineCorAtual(FILE *comandos);
 void preencheFigura(int x, int y, Imagem *img, Pixel corAtual, Pixel corAnterior);
+void pintaPixeldaReta(int TAM, Imagem *img, Pixel cor, Ponto inicial, char inclinacao);
+char verificaPosicaodaReta(int dx, int dy);
 
 #endif

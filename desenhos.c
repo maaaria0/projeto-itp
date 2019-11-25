@@ -54,7 +54,7 @@ void desenhaCirculo(Ponto centro, FILE *comandos, Imagem img, Pixel cor){
 	}
 }
 
-void desenhaRetangulo(Ponto p, FILE *comandos, Imagem *img, Pixel cor){
+void desenhaRetangulo(Ponto p, FILE *comandos, Imagem *img, Pixel cor, int TAM){
 	/*
 	esta função desenha retângulos a partir do ponto superior esquerdo 
 	que é passado como parâmetro
@@ -65,19 +65,19 @@ void desenhaRetangulo(Ponto p, FILE *comandos, Imagem *img, Pixel cor){
     Ponto i = p, f;
 
     f.x = p.x + largura;
-    desenhaReta(i, f, img, cor);
+    desenhaReta(i, f, img, cor, TAM);
     i.x+= largura;
     f.y+= altura;
-    desenhaReta(i, f, img, cor);
+    desenhaReta(i, f, img, cor, TAM);
     i.y+= altura;
     f.x-= largura;
-    desenhaReta(i, f, img, cor);
+    desenhaReta(i, f, img, cor, TAM);
     i.x-= largura;
     f.y-= altura;
-    desenhaReta(i, f, img, cor);
+    desenhaReta(i, f, img, cor, TAM);
 }
 
-void desenhaPoligono(FILE *comandos, Imagem *img, Pixel cor){
+void desenhaPoligono(FILE *comandos, Imagem *img, Pixel cor, int TAM){
 	//esta função é reponsável por desenhar polígonos a partir dos pontos passados
 	int N, i;
 	fscanf(comandos, " %d", &N);
@@ -88,18 +88,45 @@ void desenhaPoligono(FILE *comandos, Imagem *img, Pixel cor){
 	}
 
 	for(i=0; i<N-1; i++){
-		desenhaReta(pontos[i], pontos[i+1], img, cor);
+		desenhaReta(pontos[i], pontos[i+1], img, cor, TAM);
 	}
 	
 	//liga último ponto ao primeiro para fechar a figura
-	desenhaReta(pontos[0], pontos[N-1], img, cor);
+	desenhaReta(pontos[0], pontos[N-1], img, cor, TAM);
 }
 
-void desenhaReta(Ponto inicial, Ponto final, Imagem *img, Pixel cor){
+void desenhaPoligono3D(FILE *comandos, Imagem *img, Pixel cor, int TAM){
+	int P, N, i;
+	fscanf(comandos, " %d %d", &P, &N);
+	Ponto pontos[N], aux[N];
+	
+	for(i=0; i<N; i++){
+		fscanf(comandos, " %d %d", &pontos[i].x, &pontos[i].y);
+		aux[i].x = pontos[i].x;
+		aux[i].y = pontos[i].y;
+	}
+	
+	aux[0].x += P;
+	aux[0].y += P;
+	for(i=0; i<N-1; i++){
+		aux[i+1].x += P;
+		aux[i+1].y += P;
+		desenhaReta(pontos[i], pontos[i+1], img, cor, TAM);
+		desenhaReta(aux[i], aux[i+1], img, cor, TAM);
+		desenhaReta(pontos[i], aux[i], img, cor, TAM);
+	}
+	
+	desenhaReta(aux[0], aux[N-1], img, cor, TAM);
+	desenhaReta(pontos[0], pontos[N-1], img, cor, TAM);
+	desenhaReta(pontos[N-1], aux[N-1], img, cor, TAM);
+}
+
+void desenhaReta(Ponto inicial, Ponto final, Imagem *img, Pixel cor, int TAM){
 	//esta função é reponsável por desenhar retas/linhas e foi baseada no algoritmo de Bresenham
-	 
+
 	float inclinacao = 0;
 	int dx, dy;
+	char posicaoReta;
 	/*
 	a variável aux seŕa responsável por incrementar, se inicial.y < final.y, ou
 	decrementar, se inicial.y > final.y, o valor de inicial.y.
@@ -117,13 +144,40 @@ void desenhaReta(Ponto inicial, Ponto final, Imagem *img, Pixel cor){
 		inverteCoordenadas(&maiorY, &menorY);
 		aux = -1;
 	}
+
 	//dx é a diferença de final.x e inicial.x, enquanto dy é a diferença de final.y e inicial.y
+	dx = final.x-inicial.x;
+	dy = (final.y-inicial.y)*aux;
+	posicaoReta = verificaPosicaodaReta(dx, dy);
+
+	if(dx == dy){
+		inicial.x -= TAM/2;
+		final.x += TAM/2;
+		menorY -= TAM/2;
+		maiorY += TAM/2;
+		//se inicial.y <= final.y, então inicial.y irá decrementar e final.y irá incrementar
+		//se inicial.y > final.y, então inicial.y irá incrementar e final.y irá decrementar
+		inicial.y -= TAM/2*aux;
+		final.y += TAM/2*aux;
+	}
+	else if(posicaoReta == 'X'){ //dx == 0
+		menorY -= TAM/2;
+		maiorY += TAM/2;
+		inicial.y -= TAM/2*aux;
+		final.y += TAM/2*aux;
+	}
+	else if(posicaoReta == 'Y'){ //dy == 0
+		inicial.x -= TAM/2;
+		final.x += TAM/2;
+	}
+
+	//com os novos valores de x e y, calculemos a nova diferença das coordenadas
 	dx = final.x-inicial.x;
 	dy = (final.y-inicial.y)*aux;
 
 	if(dx >= dy){
-		while(inicial.x <= final.x && (inicial.x>=0 && inicial.y>=0 && inicial.x<img->largura && inicial.y<img->altura)){
-			img->matrizImagem[inicial.x][inicial.y] = cor;
+		while(inicial.x <= final.x){
+			pintaPixeldaReta(TAM, img, cor, inicial, posicaoReta);
 
 			inclinacao += dy*1.0/dx; 
 			if(inclinacao >= 1){
@@ -145,8 +199,8 @@ void desenhaReta(Ponto inicial, Ponto final, Imagem *img, Pixel cor){
 	//se dy for maior que dx, faremos os mesmos passos anteriores
 	//invertendo apenas os papéis de dx e dy, e, x e y nas operações
 	else{
-		while(menorY <= maiorY && (inicial.x>=0 && inicial.y>=0 && inicial.x<img->largura && inicial.y<img->altura)){
-			img->matrizImagem[inicial.x][inicial.y] = cor;
+		while(menorY <= maiorY){
+			pintaPixeldaReta(TAM, img, cor, inicial, posicaoReta);
 
 			inclinacao += dx*1.0/dy;
 			if(inclinacao >= 1){
@@ -160,3 +214,63 @@ void desenhaReta(Ponto inicial, Ponto final, Imagem *img, Pixel cor){
 		}
 	}
 }
+
+void desenhaCurva(FILE *comandos, Imagem *img, Pixel cor){
+	int i, j, K;
+	fscanf(comandos, " %d", &K); //lê quantidade de pontos
+	int T[K][K];
+
+	Ponto o, f, p[K];
+	for(i=0; i<K; i++){
+		fscanf(comandos, " %d %d", &p[i].x, &p[i].y);
+	}
+
+	int n=K*100;
+	float t, dt=1.0/n;
+
+	f.x = p[0].x;
+	f.y = p[0].y;
+
+	T[0][0] = 1;
+	for (i = 1; i < K; i++){
+		T[i][0] = 1;
+		T[i][i] = 1;
+		for (j = 1; j < i; j++){
+			T[i][j] = T[i-1][j] + T[i-1][j-1];
+		}
+	}
+
+	for(i=0; i<=n; i++){
+		o.x = f.x;
+		o.y = f.y;
+		t = i*dt;
+		f.x = 0;
+		f.y = 0;
+		for(j=0; j<K; j++){
+			f.x += T[K-1][j]*pow(t, j)*pow(1-t, K-1-j)*p[j].x;
+			f.y += T[K-1][j]*pow(t, j)*pow(1-t, K-1-j)*p[j].y;
+		}
+		desenhaReta(o, f, img, cor, 1);
+	}
+}
+
+/*void desenhaCurva(FILE *comandos, Imagem *img, Pixel cor){
+	Ponto o, f, p1, p2, p3;
+	int i, n=100, dx, dy;
+	float t, dt=1.0/n;
+
+	fscanf(comandos, " %d %d %d %d %d %d", &p1.x, &p1.y, &p2.x, &p2.y, &p3.x, &p3.y);
+
+	f.x = p1.x;
+	f.y = p1.y;
+
+	for(i=1; i<=n; i++){
+		o.x = f.x;
+		o.y = f.y;
+		t = i * dt;
+		f.x = pow(1-t, 2)*p1.x + (1-t)*2*t*p2.x + t*t*p3.x;
+		f.y = pow(1-t, 2)*p1.y + (1-t)*2*t*p2.y + t*t*p3.y;
+		//img->matrizImagem[f.x][f.y] = cor;
+		desenhaReta(o, f, img, cor, 1);
+	}
+}*/
