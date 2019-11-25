@@ -225,8 +225,8 @@ void desenhaCurva(FILE *comandos, Imagem *img, Pixel cor){
 		fscanf(comandos, " %d %d", &p[i].x, &p[i].y);
 	}
 
-	int n=K*100;
-	float t, dt=1.0/n;
+	int n=K*30;
+	float t, dt=1.0/n, x, y;
 
 	f.x = p[0].x;
 	f.y = p[0].y;
@@ -244,12 +244,14 @@ void desenhaCurva(FILE *comandos, Imagem *img, Pixel cor){
 		o.x = f.x;
 		o.y = f.y;
 		t = i*dt;
-		f.x = 0;
-		f.y = 0;
+		x = 0;
+		y = 0;
 		for(j=0; j<K; j++){
-			f.x += T[K-1][j]*pow(t, j)*pow(1-t, K-1-j)*p[j].x;
-			f.y += T[K-1][j]*pow(t, j)*pow(1-t, K-1-j)*p[j].y;
+			x += T[K-1][j]*pow(t, j)*pow(1-t, K-1-j)*p[j].x;
+			y += T[K-1][j]*pow(t, j)*pow(1-t, K-1-j)*p[j].y;
 		}
+		f.x = x;
+		f.y = y;
 		desenhaReta(o, f, img, cor, 1);
 	}
 }
