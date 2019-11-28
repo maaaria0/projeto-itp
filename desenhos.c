@@ -42,8 +42,7 @@ void desenhaCirculo(Ponto centro, FILE *comandos, Imagem img, Pixel cor){
 		if(y+centro.x>=0 && -x+centro.y>=0 && y+centro.x<img.largura && -x+centro.y<img.altura)
 			img.matrizImagem[y+centro.x][-x+centro.y] = cor;
 		
-		//derivada do circulo
-		//FALTA EXPLICAR ESSA PARTE
+		//cálculo do Ponto Médio
 		if(d<0)
 			d+= 2*x + 3;
 		else{
@@ -67,13 +66,13 @@ void desenhaRetangulo(Ponto p, FILE *comandos, Imagem *img, Pixel cor, int TAM){
     f.x = p.x + largura;
     desenhaReta(i, f, img, cor, TAM);
     i.x+= largura;
-    f.y+= altura;
+    f.y-= altura;
     desenhaReta(i, f, img, cor, TAM);
-    i.y+= altura;
+    i.y-= altura;
     f.x-= largura;
     desenhaReta(i, f, img, cor, TAM);
     i.x-= largura;
-    f.y-= altura;
+    f.y+= altura;
     desenhaReta(i, f, img, cor, TAM);
 }
 
@@ -96,10 +95,14 @@ void desenhaPoligono(FILE *comandos, Imagem *img, Pixel cor, int TAM){
 }
 
 void desenhaPoligono3D(FILE *comandos, Imagem *img, Pixel cor, int TAM){
+	//esta função é reponsável por desenhar polígonos 3D a partir de pontos de um polígono plano passados
 	int P, N, i;
+	//lê a profundidade(P) e quantidade de pontos(N)
 	fscanf(comandos, " %d %d", &P, &N);
 	Ponto pontos[N], aux[N];
 	
+	//lê os pontos do polígono plano e armazena no vetor de pontos,
+	//armazena os pontos também em um vetor auxiliar, no qual os pontos serão modificados
 	for(i=0; i<N; i++){
 		fscanf(comandos, " %d %d", &pontos[i].x, &pontos[i].y);
 		aux[i].x = pontos[i].x;
@@ -108,6 +111,8 @@ void desenhaPoligono3D(FILE *comandos, Imagem *img, Pixel cor, int TAM){
 	
 	aux[0].x += P;
 	aux[0].y += P;
+	//somamos a profundida aos pontos do vetor aux, criando assim dois polígonos 'paralelos',
+	//depois interligamos os vértices dos polígonos formando um polígono 3D
 	for(i=0; i<N-1; i++){
 		aux[i+1].x += P;
 		aux[i+1].y += P;
@@ -123,7 +128,6 @@ void desenhaPoligono3D(FILE *comandos, Imagem *img, Pixel cor, int TAM){
 
 void desenhaReta(Ponto inicial, Ponto final, Imagem *img, Pixel cor, int TAM){
 	//esta função é reponsável por desenhar retas/linhas e foi baseada no algoritmo de Bresenham
-
 	float inclinacao = 0;
 	int dx, dy;
 	char posicaoReta;
@@ -216,21 +220,29 @@ void desenhaReta(Ponto inicial, Ponto final, Imagem *img, Pixel cor, int TAM){
 }
 
 void desenhaCurva(FILE *comandos, Imagem *img, Pixel cor){
+	//esta função é reponsável por desenhar curvas de Bézier
 	int i, j, K;
-	fscanf(comandos, " %d", &K); //lê quantidade de pontos
+	//lê quantidade de pontos
+	fscanf(comandos, " %d", &K);
+	//matriz para o triângulo de Pascal
 	int T[K][K];
 
 	Ponto o, f, p[K];
+	//lê os pontos de controle e armazena no vetor p
 	for(i=0; i<K; i++){
 		fscanf(comandos, " %d %d", &p[i].x, &p[i].y);
 	}
 
+	//definimos n como 30 vezes a quantidade de pontos
 	int n=K*30;
+	//t é um valor de parametrização para percorrer a curva
 	float t, dt=1.0/n, x, y;
 
 	f.x = p[0].x;
 	f.y = p[0].y;
 
+	//fazemos o triângulo de Pascal de acordo com a quantidade de pontos usados para curva
+	//já que a curva baseia seu cálculo no Binômio de Newton para a resolução de seus coeficientes 
 	T[0][0] = 1;
 	for (i = 1; i < K; i++){
 		T[i][0] = 1;
@@ -247,6 +259,8 @@ void desenhaCurva(FILE *comandos, Imagem *img, Pixel cor){
 		x = 0;
 		y = 0;
 		for(j=0; j<K; j++){
+			//realizamos o cálculo para os pontos de acordo com o resultado da fórmula (t+(t-1))^(K-1)
+			//que é dado por um somatório, por isso o for
 			x += T[K-1][j]*pow(t, j)*pow(1-t, K-1-j)*p[j].x;
 			y += T[K-1][j]*pow(t, j)*pow(1-t, K-1-j)*p[j].y;
 		}
@@ -255,24 +269,3 @@ void desenhaCurva(FILE *comandos, Imagem *img, Pixel cor){
 		desenhaReta(o, f, img, cor, 1);
 	}
 }
-
-/*void desenhaCurva(FILE *comandos, Imagem *img, Pixel cor){
-	Ponto o, f, p1, p2, p3;
-	int i, n=100, dx, dy;
-	float t, dt=1.0/n;
-
-	fscanf(comandos, " %d %d %d %d %d %d", &p1.x, &p1.y, &p2.x, &p2.y, &p3.x, &p3.y);
-
-	f.x = p1.x;
-	f.y = p1.y;
-
-	for(i=1; i<=n; i++){
-		o.x = f.x;
-		o.y = f.y;
-		t = i * dt;
-		f.x = pow(1-t, 2)*p1.x + (1-t)*2*t*p2.x + t*t*p3.x;
-		f.y = pow(1-t, 2)*p1.y + (1-t)*2*t*p2.y + t*t*p3.y;
-		//img->matrizImagem[f.x][f.y] = cor;
-		desenhaReta(o, f, img, cor, 1);
-	}
-}*/
